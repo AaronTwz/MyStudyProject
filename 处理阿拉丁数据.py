@@ -448,7 +448,7 @@ def replaceByID(NameList, searchList):
 
 
 # 通用数据导出
-def outputDataCommon(wookbook):
+def outputDataCommon(workbook):
     commonDataList = [turnTableOpen, turnTableClose, turnTableFree, turnTableShare, turnTableAD, turnTableSingleReward,
                       turnTableDoubleReward, gotoLeft, gotoRight, upgradeOpen, upgradeClose, upgradeFac, upgradeFood,
                       achieveOpen, fireCatClick, catStoreClose, dailyTaskClick, getBarGold, getPianoGold, getCashGold,
@@ -456,12 +456,186 @@ def outputDataCommon(wookbook):
                       foodDetailsClose, handbookClick, handbookClose, handbookCus, handbookOrn, getCusFromSeniorProp,
                       getCusFromAD, offlineFishSingleReward, offlineFishDoubleReward, getFishFromAD, commonSingleReward,
                       commonDoubleReward]
-    sheet_commonData = wookbook.add_sheet('通用数据')
+    sheetData = workbook.add_worksheet('通用数据')
+    titleList = ['触发事件名称', '触发人数', '总触发次数', '人均触发次数']
+    sheetData.write_row(0, 0, titleList)
+    for title in titleList:
+        sheetData.set_column(titleList.index(title), titleList.index(title), len(title) * 2.075)
+    sheetData.set_column(0, 0, 34)
+    rowNum = 0
+    for commonData in commonDataList:
+        rowNum += 1
+        sheetData.write(rowNum, 0, commonData[0][0])
+        sheetData.write(rowNum, 1, int(commonData[0][1]))
+        sheetData.write(rowNum, 2, int(commonData[0][2]))
+        sheetData.write(rowNum, 3, float(commonData[0][3]))
 
 
 # 分析数据
-def analayseData():
-    return 1
+def analayseFoodData(workbook):
+    sheetData = workbook.add_worksheet('购买食物')
+    titleList = ['购买ID', '购买触发人数', '看广告购买触发人数', '购买人均次数', '看广告购买人均次数']
+    sheetData.write_row(0, 0, titleList)
+    for title in titleList:
+        sheetData.set_column(titleList.index(title), titleList.index(title), len(title) * 2.075)
+    for i in range(len(foodNameList)):
+        i += 1
+        sheetData.write(i, 0, i)
+        buyFood.sort()
+        for food in buyFood:
+            if int(food[0]) == i:
+                sheetData.write(i, 1, int(food[1]))
+                sheetData.write(i, 3, float(food[3]))
+                break
+        buyFoodAD.sort()
+        for food in buyFoodAD:
+            if int(food[0]) == i:
+                sheetData.write(i, 2, int(food[1]))
+                sheetData.write(i, 4, float(food[3]))
+                break
+
+
+def analayseFacilityData(workbook):
+    sheetData = workbook.add_worksheet('购买设施')
+    titleList = ['购买ID', '购买触发人数', '看广告购买触发人数', '购买人均次数', '看广告购买人均次数']
+    sheetData.write_row(0, 0, titleList)
+    for title in titleList:
+        sheetData.set_column(titleList.index(title), titleList.index(title), len(title) * 2.075)
+    for i in range(len(facNameList)):
+        i += 1
+        sheetData.write(i, 0, i)
+        buyFacility.sort()
+        for fac in buyFacility:
+            if int(fac[0]) == i:
+                sheetData.write(i, 1, int(fac[1]))
+                sheetData.write(i, 3, float(fac[3]))
+                break
+        buyFacilityAD.sort()
+        for fac in buyFacilityAD:
+            if int(fac[0]) == i:
+                sheetData.write(i, 2, int(fac[1]))
+                sheetData.write(i, 4, float(fac[3]))
+                break
+
+
+def analayseCatFromRecruitData(workbook):
+    sheetData = workbook.add_worksheet('购买猫咪')
+    titleList = ['购买ID', '购买人数', '购买成功人数', '鱼干不足人数', '购买人均次数', '购买成功人均次数', '鱼干不足人均次数', '', '商店购买人数', '商店购买成功人数',
+                 '商店购买人均人数', '商店购买成功人均人数']
+    sheetData.write_row(0, 0, titleList)
+    for title in titleList:
+        sheetData.set_column(titleList.index(title), titleList.index(title), len(title) * 2.075)
+    for i in range(50):
+        i += 1
+        sheetData.write(i, 0, i)
+        buyCatFromRecruit.sort()
+        for j in buyCatFromRecruit:
+            if int(j[0]) == i:
+                sheetData.write(i, 1, int(j[1]))
+                sheetData.write(i, 4, float(j[3]))
+                break
+        buyCatFromRecruitSuccess.sort()
+        for j in buyCatFromRecruitSuccess:
+            if int(j[0]) == i:
+                sheetData.write(i, 2, int(j[1]))
+                sheetData.write(i, 5, float(j[3]))
+                break
+        buyCatFromRecruitFailed.sort()
+        for j in buyCatFromRecruitFailed:
+            if int(j[0]) == i:
+                sheetData.write(i, 3, int(j[1]))
+                sheetData.write(i, 6, float(j[3]))
+                break
+        buyCatFromStore.sort()
+        for j in buyCatFromStore:
+            if int(j[0]) == i:
+                sheetData.write(i, 8, int(j[1]))
+                sheetData.write(i, 10, float(j[3]))
+                break
+        buyCatFromStoreSuccess.sort()
+        for j in buyCatFromStoreSuccess:
+            if int(j[0]) == i:
+                sheetData.write(i, 9, int(j[1]))
+                sheetData.write(i, 11, float(j[3]))
+                break
+
+
+def analaysecatLvUpData(workbook):
+    sheetData = workbook.add_worksheet('合出猫咪')
+    titleList = ['ID', '合出人数', '合出总次数', '合出人均次数']
+    sheetData.write_row(0, 0, titleList)
+    for title in titleList:
+        sheetData.set_column(titleList.index(title), titleList.index(title), len(title) * 2.075)
+    for i in range(50):
+        i += 1
+        sheetData.write(i, 0, i)
+        catLvUp.sort()
+        for j in catLvUp:
+            if int(j[0]) == i:
+                sheetData.write(i, 1, int(j[1]))
+                sheetData.write(i, 2, int(j[2]))
+                sheetData.write(i, 3, float(j[3]))
+                break
+
+
+def analaysefireCatData(workbook):
+    sheetData = workbook.add_worksheet('解雇猫咪')
+    titleList = ['ID', '解雇人数', '解雇总次数', '解雇人均次数']
+    sheetData.write_row(0, 0, titleList)
+    for title in titleList:
+        sheetData.set_column(titleList.index(title), titleList.index(title), len(title) * 2.075)
+    for i in range(50):
+        i += 1
+        sheetData.write(i, 0, i)
+        fireCat.sort()
+        for j in fireCat:
+            if int(j[0]) == i:
+                sheetData.write(i, 1, int(j[1]))
+                sheetData.write(i, 2, int(j[2]))
+                sheetData.write(i, 3, float(j[3]))
+                break
+
+
+def analayseDailyTaskData(workbook):
+    sheetData = workbook.add_worksheet('每日任务')
+    titleList = ['ID', '触发人数', '完成人数', '触发人均次数', '完成人均次数']
+    sheetData.write_row(0, 0, titleList)
+    for title in titleList:
+        sheetData.set_column(titleList.index(title), titleList.index(title), len(title) * 2.075)
+
+    # 添加文本备注
+    fPath = 'C:/Users/Administrator/Desktop/Aladdin/'
+    excelfile = fPath + 'DailyTask' + '.xlsx'
+    workbook = xlrd.open_workbook(excelfile)
+    sheet1 = workbook.sheet_by_index(0)
+    NameList = sheet1.col_values(3, 3)
+
+    for i in range(len(facNameList)):
+        i += 1
+        sheetData.write(i, 0, i)
+        getDailyTaskID.sort()
+        for j in getDailyTaskID:
+            if int(j[0]) == i:
+                sheetData.write(i, 1, int(j[1]))
+                sheetData.write(i, 3, float(j[3]))
+                sheetData.write(i, 5, NameList[i-1])
+                break
+        compliteDailyTaskID.sort()
+        for j in compliteDailyTaskID:
+            if int(j[0]) == i:
+                sheetData.write(i, 2, int(j[1]))
+                sheetData.write(i, 4, float(j[3]))
+                break
+
+
+def analayseData(workbook):
+    analayseFoodData(workbook)
+    analayseFacilityData(workbook)
+    analayseCatFromRecruitData(workbook)
+    analaysecatLvUpData(workbook)
+    analaysefireCatData(workbook)
+    analayseDailyTaskData(workbook)
+    outputDataCommon(workbook)
 
 
 # 主函数
@@ -478,5 +652,8 @@ if __name__ == '__main__':
     replaceByID(facNameList, buyFacility)
     replaceByID(facNameList, buyFacilityAD)
     # 将分类好的数据导出
-
+    outfile = filePath + fileName + '.xlsx'
+    workbook = xlsxwriter.Workbook(outfile)
+    analayseData(workbook)
+    workbook.close()
     print('处理完成！')
