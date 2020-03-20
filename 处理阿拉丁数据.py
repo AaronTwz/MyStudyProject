@@ -4,7 +4,7 @@ import csv
 
 # 文件列表
 filePath = 'C:/Users/Administrator/Desktop/Aladdin/'
-fileName = '事件分析-2020-03-06_2020-03-12'
+fileName = '事件分析-2020-03-18_2020-03-19'
 file = filePath + fileName + '.csv'
 
 
@@ -117,7 +117,7 @@ def importData():
             except:
                 endindex = None
             buyFoodAD.append(
-                [event[i][len(keyword + 1) + 1:endindex], UserNum[i], triggerTimes[i], triggerTimesPU[i]])
+                [event[i][(len(keyword) + 1):endindex], UserNum[i], triggerTimes[i], triggerTimesPU[i]])
             continue
 
         keyword = '成功购买设施'
