@@ -2,11 +2,6 @@ import xlrd
 import xlsxwriter
 import csv
 
-# 文件列表
-filePath = 'C:/Users/Administrator/Desktop/Aladdin/'
-fileName = '事件分析-2020-03-18_2020-03-19'
-file = filePath + fileName + '.csv'
-
 
 # csv转xlsx
 def csv_to_xlsx(csvFile):
@@ -618,7 +613,7 @@ def analayseDailyTaskData(workbook):
             if int(j[0]) == i:
                 sheetData.write(i, 1, int(j[1]))
                 sheetData.write(i, 3, float(j[3]))
-                sheetData.write(i, 5, NameList[i-1])
+                sheetData.write(i, 5, NameList[i - 1])
                 break
         compliteDailyTaskID.sort()
         for j in compliteDailyTaskID:
@@ -638,22 +633,32 @@ def analayseData(workbook):
     outputDataCommon(workbook)
 
 
-# 主函数
-if __name__ == '__main__':
+# 处理单个数据表
+def makeExcel(file, outfile):
     # 从后台得到csv文件
     getDataFromCsv(file)
     # 将文件数据以模块的形式导入内存
     importData()
-    # 将道具名称转换为ID
-    foodNameList = getMap('Food')
-    facNameList = getMap('Facilities')
     replaceByID(foodNameList, buyFood)
     replaceByID(foodNameList, buyFoodAD)
     replaceByID(facNameList, buyFacility)
     replaceByID(facNameList, buyFacilityAD)
     # 将分类好的数据导出
-    outfile = filePath + fileName + '.xlsx'
     workbook = xlsxwriter.Workbook(outfile)
     analayseData(workbook)
     workbook.close()
+
+
+if __name__ == '__main__':
+    # 将道具名称转换为ID
+    foodNameList = getMap('Food')
+    facNameList = getMap('Facilities')
+    # 文件列表
+    filePath = 'C:/Users/Administrator/Desktop/Aladdin/'
+    fileNameList = ['事件分析-2020-03-26_2020-03-26', '事件分析-2020-03-27_2020-03-27', '事件分析-2020-03-28_2020-03-28',
+                    '事件分析-2020-03-29_2020-03-29']
+    for fileName in fileNameList:
+        file = filePath + fileName + '.csv'
+        outfile = filePath + fileName + '.xlsx'
+        makeExcel(file, outfile)
     print('处理完成！')
